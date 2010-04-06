@@ -14,8 +14,8 @@ setup(
     url = 'http://www.evernote.com/about/developer/api/',
     description = 'Python bindings to the Evernote API.',
     long_description = read('README.txt'),
-    packages = find_packages(),
-    install_requires = ['thrift'],
+    packages = find_packages('src'),
+    package_dir = {'': 'src'},
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

@@ -24,10 +24,10 @@ def sdist():
     if not unziped_dir.exists():
         local('unzip %s' % api_zip_name)
     
-    local('cp -r -f %s/lib/python/evernote evernote' % unziped_dir)
+    local('cp -r -f %s/lib/python src' % unziped_dir)
     
     with nested(open('setup.py.in'), open('setup.py', 'w')) as (fin, fout):
-        fout.write(fin.read() % {'version': unziped_dir.stem.split('-')[-1]})
+        fout.write(fin.read() % {'version': api_zip_name.stem.split('-')[-1]})
         
     local('python setup.py sdist')
     
@@ -35,4 +35,11 @@ def clean():
     """
     Clean up any leftovers.
     """
-    local('rm -rf dist evernote* setup.py')
+    local('rm -rf dist src evernote* setup.py')
+    
+def upload():
+    """
+    Push a tarball to PyPI.
+    """
+    sdist()
+    local('python setup.py register upload')
