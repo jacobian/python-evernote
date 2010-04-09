@@ -8,7 +8,7 @@ API_LANDING_PAGE = 'http://www.evernote.com/about/developer/api/'
 API_LINK_TITLE = 'Evernote API'
 BASE_PATH = Path(__file__).absolute().parent
 
-def sdist():
+def prep_sdist():
     """
     Build a sdist from the latest Evernote Python API wrappers.
     """
@@ -28,9 +28,7 @@ def sdist():
     
     with nested(open('setup.py.in'), open('setup.py', 'w')) as (fin, fout):
         fout.write(fin.read() % {'version': api_zip_name.stem.split('-')[-1]})
-        
-    local('python setup.py sdist')
-    
+            
 def clean():
     """
     Clean up any leftovers.
@@ -41,5 +39,5 @@ def upload():
     """
     Push a tarball to PyPI.
     """
-    sdist()
-    local('python setup.py register upload')
+    prep_sdist()
+    local('python setup.py register sdist upload')
